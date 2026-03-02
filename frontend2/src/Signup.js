@@ -4,6 +4,7 @@ import "./Login.css";
 export default function Signup() {
   const [username, setUsername] = useState("")
   const [password1, setPassword1] = useState("")
+  const [email, setEmail] = useState("")
   const [password1Show, setPassword1Show] = useState(false)
   const [password2, setPassword2] = useState("")
   const [password2Show, setPassword2Show] = useState(false)
@@ -25,7 +26,8 @@ export default function Signup() {
         },
         body: JSON.stringify({
           username: username,
-          password: password1
+          password: password1,
+          email
         })
       })
       setError(res.status)
@@ -65,6 +67,19 @@ export default function Signup() {
         </div>
 
         <div className="formSection">
+
+        <div className="inputGroup">
+            <label>
+              Email:
+              <input
+                className="inputField"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="email"
+              />
+            </label>
+          </div>
           <div className="inputGroup">
             <label>
               Username:
