@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Login.css";
 
-export default function Login() {
+export default function Signup() {
   const [username, setUsername] = useState("")
   const [password1, setPassword1] = useState("")
   const [password1Show, setPassword1Show] = useState(false)

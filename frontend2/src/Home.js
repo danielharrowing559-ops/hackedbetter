@@ -5,7 +5,6 @@ import Navbar from "./Navbar";
 function Home() {
   return (
     <div className="home">
-        <Navbar></Navbar>
       {/* Background Video */}
       <div className="videoContainer">
         <video autoPlay muted loop className="backgroundVideo">

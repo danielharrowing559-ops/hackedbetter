@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
@@ -7,16 +8,18 @@ function Navbar() {
       <div className="navbarContainer">
         
         {/* Logo */}
-        <div className="logoNav">
+        <Link to="/" className="logoNav">
           StudyPets
-        </div>
+        </Link>
 
-        {/* Links - You can replace these */}
+        {/* Links */}
         <div className="navLinks">
           <a href="#">Link One</a>
           <a href="#">Link Two</a>
           <a href="#">Link Three</a>
-          <a href="/login" className="navButton">Login</a>
+          <Link to="/login" className="navButton">
+            Login
+          </Link>
         </div>
 
       </div>
