@@ -1,5 +1,9 @@
 {
+  "scripts": {
+    "start": "react-scripts start"
+  },
   "dependencies": {
-    "react-router-dom": "^7.13.1"
+    "react-router-dom": "^7.13.1",
+    "react-scripts": "^5.0.1"
   }
 }
