@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Login.css";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
   const [username, setUsername] = useState("")
@@ -161,9 +162,9 @@ export default function Signup() {
             </label>
           </div>
 
-          <button className="submitBtn" onClick={signup}>
+          <Link to='/' className="submitBtn" onClick={signup}>
             Sign Up
-          </button>
+          </Link>
         </div>
 
         <div className="statusPanel">
