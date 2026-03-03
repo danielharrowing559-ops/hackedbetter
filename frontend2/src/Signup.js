@@ -20,7 +20,6 @@ export default function Signup() {
     if (password1 === password2 && range && capital && number && special){
       const res = await fetch("http://localhost:5000/signup", {
         method:"POST",
-        mode: 'no-cors',
         credentials:"include",
         headers: {
           "Accept": "application/json",
@@ -29,7 +28,7 @@ export default function Signup() {
         body: JSON.stringify({
           username: username,
           password: password1,
-          email
+          email: email
         })
       })
       setError(res.status)
@@ -163,9 +162,9 @@ export default function Signup() {
             </label>
           </div>
 
-          <Link to='/' className="submitBtn" onClick={signup}>
+          <button to='/' className="submitBtn" onClick={signup}>
             Sign Up
-          </Link>
+          </button>
         </div>
 
         <div className="statusPanel">
