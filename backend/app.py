@@ -7,7 +7,7 @@ from flask_cors import CORS
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")

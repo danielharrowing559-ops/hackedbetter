@@ -15,7 +15,7 @@ function Home() {
       {/* Overlay */}
       <div className="overlay"></div>
 
-      {/* Main Content */}
+      {/* Main Content */}      
       <div className="content">
         <h1 className="logo">StudyPets</h1>
         <p className="tagline">
