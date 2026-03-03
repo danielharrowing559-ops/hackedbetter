@@ -20,6 +20,7 @@ export default function Signup() {
     if (password1 === password2 && range && capital && number && special){
       const res = await fetch("http://localhost:5000/signup", {
         method:"POST",
+        mode: 'no-cors',
         credentials:"include",
         headers: {
           "Accept": "application/json",
