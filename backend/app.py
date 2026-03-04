@@ -26,6 +26,7 @@ def sign_up():
     password = data.get("password")
 
     if not email or not password:
+        print("1")
         return jsonify({"error": "Email and password required"}), 400
 
     try:
@@ -37,6 +38,7 @@ def sign_up():
         )
 
         if email_check.data:
+            print("2")
             return jsonify({"error": "Email already exists"}), 400
 
         result = (
@@ -47,10 +49,13 @@ def sign_up():
 
         if result.data:
             return jsonify({"message": "Signup successful", "data": result.data}), 200
-
+        
+        print("3")
         return jsonify({"error": "Signup failed"}), 400
 
     except Exception as e:
+        
+        print("4")
         return jsonify({"error": str(e)}), 400
 
 
