@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 from supabase import create_client, Client
 from dotenv import load_dotenv
 from flask_cors import CORS
+import traceback
 
 load_dotenv()
 
@@ -51,12 +52,12 @@ def sign_up():
             return jsonify({"message": "Signup successful", "data": result.data}), 200
         
         print("3")
-        return jsonify({"error": "Signup failed"}), 400
+        return jsonify({"error": "Signup failed"})
+
 
     except Exception as e:
-        
         print("4")
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"error": str(e)})
 
 
 @app.route("/getpets", methods=["GET"])
