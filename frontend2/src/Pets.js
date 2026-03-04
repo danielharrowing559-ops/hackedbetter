@@ -65,7 +65,7 @@ function Pets() {
             onClick={() => handleSelect(pet.id)}
           >
             <img
-              src={`/images/${pet.image_ref}`} 
+              src={`images/${pet.image_ref}.png`} 
               alt={pet.species}
               className="petImage"
             />
