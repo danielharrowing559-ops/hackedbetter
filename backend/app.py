@@ -76,6 +76,7 @@ def get_pets():
 def select_pet():
     data = request.get_json() or {}
     pet_id = data.get("pet_id")
+    print("pet_id", pet_id)
 
     if not pet_id:
         return jsonify({"error": "session and pet_id required"}), 400
