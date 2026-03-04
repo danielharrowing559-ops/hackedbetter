@@ -4,6 +4,7 @@ import Home from "./Home";
 import Signup from "./Signup";
 import Navbar from "./Navbar";
 import Study from "./Study";
+import Pets from "./Pets";
 
 import { useState } from "react";
 
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/study" element={<Study />} />
+          <Route path="/pets" element={<Pets /> } />
       <Route path="*" element={<Signup />}></Route>
     </Routes>
     </BrowserRouter>

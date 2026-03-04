@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import "./Login.css";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("")
   const [password1, setPassword1] = useState("")
   const [email, setEmail] = useState("")
@@ -32,7 +34,11 @@ export default function Signup() {
         })
       })
       setError(res.status)
-    } 
+       if (res.status === 200) { 
+        navigate("/")   
+        
+      
+    } }
     else {
       setErrorText(null)
       setError(null)
@@ -162,7 +168,7 @@ export default function Signup() {
             </label>
           </div>
 
-          <button to='/' className="submitBtn" onClick={signup}>
+          <button className="submitBtn" onClick={signup}>
             Sign Up
           </button>
         </div>
