@@ -8,6 +8,7 @@ import bcrypt
 load_dotenv()
 
 # Initialize Flask app and Supabase client. 
+
 app = Flask(__name__) 
 CORS(app, supports_credentials=True)
 secret_key = os.environ.get("SECRET_env")
@@ -21,6 +22,7 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # This is the endpoint that will be called when the user wants to sign up. 
+
 @app.route("/signup", methods=["POST"])
 def sign_up():
     data = request.get_json() or {}
@@ -33,6 +35,7 @@ def sign_up():
 
     try:
         # Check if the email is actually existing in the database before inserting the user. 
+       
         email_check = (
             supabase.table("users")
             .select("email")
@@ -44,15 +47,18 @@ def sign_up():
             return jsonify({"error": "Email already exists"}), 400
 
         # Hash the password with bcrypt before inserting
-        pw_bytes = password.encode("utf-8")
+       
+        pw_bytes = (password+secret_key).encode("utf-8")
         salt = bcrypt.gensalt()
         hashed_pw = bcrypt.hashpw(pw_bytes, salt).decode("utf-8")
 
         # Insert the user (store hashed password, not plaintext)
+        
         supabase.table("users").insert({"email": email,
             "password": hashed_pw,
             "name": name
         }).execute()
+        
         id = supabase.table("users").select("id").eq("email", email).execute()
         session["id"] = id.data[0]["id"]
         return jsonify({}), 200
@@ -62,6 +68,7 @@ def sign_up():
         return jsonify({"error": str(e)}), 400
 
 # This is the endpoint that will be called when the user wants to get the list of pets. 
+
 @app.route("/getpets", methods=["GET"])
 def get_pets():
     try:
