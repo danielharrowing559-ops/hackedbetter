@@ -1,13 +1,13 @@
 import os
 from flask import Flask, request, jsonify, session
-
 from supabase import create_client, Client
 from dotenv import load_dotenv
 from flask_cors import CORS
 
 load_dotenv()
 
-app = Flask(__name__)
+# Initialize Flask app and Supabase client. 
+app = Flask(__name__) 
 CORS(app, supports_credentials=True)
 app.secret_key = os.environ.get("SECRET_env")
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
@@ -18,7 +18,7 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-
+# This is the endpoint that will be called when the user wants to sign up. 
 @app.route("/signup", methods=["POST"])
 def sign_up():
     data = request.get_json() or {}
@@ -27,10 +27,10 @@ def sign_up():
     password = data.get("password")
 
     if not email or not password:
-        return jsonify({"error": "Email and password required"}), 400
+        return jsonify({"error": "Email and password required"})
 
     try:
-        # Check if email exists
+        # Check if the email is actually existing in the database before inserting the user. 
         email_check = (
             supabase.table("users")
             .select("email")
@@ -41,7 +41,7 @@ def sign_up():
         if email_check.data:
             return jsonify({"error": "Email already exists"}), 400
 
-        # Insert user
+        # Insert the user
         supabase.table("users").insert({"email": email,
             "password": password,
             "name": name
@@ -54,6 +54,7 @@ def sign_up():
         print(e)
         return jsonify({"error": str(e)}), 400
 
+# This is the endpoint that will be called when the user wants to get the list of pets. 
 @app.route("/getpets", methods=["GET"])
 def get_pets():
     try:
@@ -70,18 +71,15 @@ def get_pets():
         return jsonify({"error": str(e)}), 400
 
 
-
+# This is the endpoint that will be called when the user selects a pet. 
 @app.route("/selectpet", methods=["POST"])
 def select_pet():
     data = request.get_json() or {}
-    session = data.get("session")
     pet_id = data.get("pet_id")
 
-    if not session or not pet_id:
+    if not pet_id:
         return jsonify({"error": "session and pet_id required"}), 400
-
     try:
-
         supabase.table("users") .update({"pet_id": pet_id}).eq("id", session["id"]) .execute()
         return jsonify({}), 200
 
