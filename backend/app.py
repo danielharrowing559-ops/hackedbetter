@@ -54,7 +54,7 @@ def sign_up():
         return jsonify({"error": str(e)}), 400
 
 
-@app.route("/pets", methods=["GET"])
+@app.route("/getpets", methods=["GET"])
 def get_pets():
     try:
         result = (
