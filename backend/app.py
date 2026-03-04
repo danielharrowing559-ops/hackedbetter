@@ -15,8 +15,9 @@ secret_key = os.environ.get("SECRET_env")
 app.secret_key = secret_key
 
 supabase: Client = create_client(
-SUPABASE_URL = os.environ.get("SUPABASE_URL"),
-SUPABASE_KEY = os.environ.get("SUPABASE_PUBLISHABLE_KEY"))
+    os.environ.get("SUPABASE_URL"),
+    os.environ.get("SUPABASE_PUBLISHABLE_KEY")
+)
 
 @app.route("/signup", methods=["POST"])
 def sign_up():
