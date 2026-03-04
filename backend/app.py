@@ -13,15 +13,10 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 secret_key = os.environ.get("SECRET_env")
 app.secret_key = secret_key
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_KEY = os.environ.get("SUPABASE_PUBLISHABLE_KEY")
 
-if not SUPABASE_URL or not SUPABASE_KEY:
-    raise Exception("Missing SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY in .env")
-
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-# This is the endpoint that will be called when the user wants to sign up. 
+supabase: Client = create_client(
+SUPABASE_URL = os.environ.get("SUPABASE_URL"),
+SUPABASE_KEY = os.environ.get("SUPABASE_PUBLISHABLE_KEY"))
 
 @app.route("/signup", methods=["POST"])
 def sign_up():
