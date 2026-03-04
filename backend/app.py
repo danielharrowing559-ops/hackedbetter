@@ -3,13 +3,15 @@ from flask import Flask, request, jsonify, session
 from supabase import create_client, Client
 from dotenv import load_dotenv
 from flask_cors import CORS
+import bcrypt
 
 load_dotenv()
 
 # Initialize Flask app and Supabase client. 
 app = Flask(__name__) 
 CORS(app, supports_credentials=True)
-app.secret_key = os.environ.get("SECRET_env")
+secret_key = os.environ.get("SECRET_env")
+app.secret_key = secret_key
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_PUBLISHABLE_KEY")
 
@@ -41,9 +43,14 @@ def sign_up():
         if email_check.data:
             return jsonify({"error": "Email already exists"}), 400
 
-        # Insert the user
+        # Hash the password with bcrypt before inserting
+        pw_bytes = password.encode("utf-8")
+        salt = bcrypt.gensalt()
+        hashed_pw = bcrypt.hashpw(pw_bytes, salt).decode("utf-8")
+
+        # Insert the user (store hashed password, not plaintext)
         supabase.table("users").insert({"email": email,
-            "password": password,
+            "password": hashed_pw,
             "name": name
         }).execute()
         id = supabase.table("users").select("id").eq("email", email).execute()
