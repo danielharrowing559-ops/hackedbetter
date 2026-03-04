@@ -62,6 +62,47 @@ def sign_up():
         print(e)
         return jsonify({"error": str(e)}), 400
 
+
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json() or {}
+    email = data.get("email")
+    password = data.get("password")
+
+    if not email or not password:
+        return jsonify({"error": "Email and password required"}), 400
+
+    try:
+        # Check if the email is actually existing in the database before inserting the user. 
+       
+        email_check = (
+            supabase.table("users")
+            .select("email")
+            .eq("email", email)
+            .execute()
+        )
+
+        if not email_check.data:
+            return jsonify({"error": "Email doesn't exists"}), 400
+        
+        # Check hashed password
+
+        db_password = (supabase.table("users").select("password").eq("email", email))
+        pw_bytes = (password+secret_key).encode("utf-8")
+        salt = bcrypt.gensalt()
+        hashed_pw = bcrypt.hashpw(pw_bytes, salt).decode("utf-8")
+        result = bcrypt.checkpw(hashed_pw, db_password)
+        if result:
+            id = supabase.table("users").select("id").eq("email", email).execute()
+            session["id"] = id.data[0]["id"]
+            return jsonify({}), 200
+        else:
+            return jsonify({"error": "Incorrect credentials"}), 400
+
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)}), 400
+
 # This is the endpoint that will be called when the user wants to get the list of pets. 
 
 @app.route("/getpets", methods=["GET"])
