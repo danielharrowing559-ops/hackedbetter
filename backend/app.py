@@ -1,5 +1,4 @@
 import os
-import uuid
 from flask import Flask, request, jsonify, session
 
 from supabase import create_client, Client
@@ -42,9 +41,6 @@ def sign_up():
         if email_check.data:
             return jsonify({"error": "Email already exists"}), 400
 
-        # Create session token
-        session_token = str(uuid.uuid4())
-
         # Insert user
         supabase.table("users").insert({"email": email,
             "password": password,
@@ -54,13 +50,9 @@ def sign_up():
         session["id"] = id.data[0]["id"]
         return jsonify({}), 200
 
-        return jsonify({"error": "Signup failed"}), 400
-
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 400
-
-
 
 @app.route("/getpets", methods=["GET"])
 def get_pets():
