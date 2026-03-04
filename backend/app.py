@@ -9,10 +9,8 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_KEY = os.environ.get("SUPABASE_PUBLISHABLE_KEY") 
-
+SUPABASE_KEY = os.environ.get("SUPABASE_PUBLISHABLE_KEY")
 
 if not SUPABASE_URL or not SUPABASE_KEY:
     raise Exception("Missing SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY in .env")
@@ -37,11 +35,10 @@ def sign_up():
             .eq("email", email)
             .execute()
         )
-        
+
         if email_check.data:
             return jsonify({"error": "Email already exists"}), 400
 
-        # Insert new user
         result = (
             supabase.table("users")
             .insert({"email": email, "password": password, "name": name})
@@ -52,6 +49,21 @@ def sign_up():
             return jsonify({"message": "Signup successful", "data": result.data}), 200
 
         return jsonify({"error": "Signup failed"}), 400
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@app.route("/pets", methods=["GET"])
+def get_pets():
+    try:
+        result = (
+            supabase
+            .table("pets")
+            .select("*")
+            .execute()
+        )
+        return jsonify({"pets": result.data}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
