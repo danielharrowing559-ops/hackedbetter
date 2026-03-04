@@ -15,8 +15,8 @@ function Navbar() {
         {/* Links */}
         <div className="navLinks">
           <Link to='/study'>Study</Link>
-          <a href="#">Link Two</a>
-          <a href="#">Link Three</a>
+          <Link to='/pets'>Pets</Link>
+          <Link to='/profile'>Profile</Link>
           <Link to="/login" className="navButton">
             Login
           </Link>
